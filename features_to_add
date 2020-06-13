@@ -1,0 +1,6 @@
+1) Different ways of aliens moving (like in the book/ like in the package example)
+2) Sounds of shouting/ hitting an alien/ background music
+3) Background Image
+4) Function to load pictures and manupulate with them based on their type (png, jpg, etc)
+5) get to the file of image or music using os.path (see examples)
+6) add ability to start the game with a button (not only mouse press), add cursor change while on play button
