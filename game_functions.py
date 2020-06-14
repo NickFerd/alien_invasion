@@ -164,7 +164,7 @@ def create_alien(ai_s, screen, aliens, alien_number, row_number):
     alien_width = alien.rect.width
     alien.x = alien_width // 3 + (alien_width + alien_width // 3) * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = (alien.rect.height + (2 * alien.rect.height) * row_number)
+    alien.rect.y = 20 + (alien.rect.height + (2 * alien.rect.height) * row_number)
     aliens.add(alien)
 
 
