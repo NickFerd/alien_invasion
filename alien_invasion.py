@@ -14,6 +14,7 @@ def run_game():
     ai_s = Settings()  # instance of class Settings, which store all settings parameters
     screen = pygame.display.set_mode((ai_s.screen_width, ai_s.screen_height))  # Get a Surface of screen
     pygame.display.set_caption('ALIEN INVASION')
+    background = pygame.image.load('images/bg1.jpg').convert()
 
     # Create an instance to store game statistics and create a scoreboard
     stats = GameStats(ai_s)
@@ -40,7 +41,7 @@ def run_game():
             gf.update_bullets(ai_s, screen, stats, sb, ship, bullets, aliens)  # bullets pos. update, check alien-bullet collision
             gf.update_aliens(ai_s, stats, screen, sb, ship, aliens, bullets)
 
-        gf.update_screen(ai_s, screen, stats, sb, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_s, screen, background, stats, sb, ship, aliens, bullets, play_button)
 
 
 run_game()

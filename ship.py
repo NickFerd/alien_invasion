@@ -11,7 +11,7 @@ class Ship(Sprite):
         self.ai_s = ai_settings
 
         # Load the ship image and get its rect.
-        self.image = pygame.image.load("images/ship1.1.jpg")  # Surface object for ship
+        self.image = pygame.image.load("images/ship1.1.jpg").convert()  # Surface object for ship
         self.image = pygame.transform.scale(self.image, (75, 85))  # scaling image
         white = (255, 255, 255)
         self.image.set_colorkey(white)  # make this color transparent

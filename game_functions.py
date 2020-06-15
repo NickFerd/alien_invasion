@@ -70,10 +70,10 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens,
         ship.center_ship()
 
 
-def update_screen(settings, screen, stats, sb, ship, aliens, bullets, play_button):
+def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets, play_button):
     """Update images on the screen and flip to the new screen"""
     # Redraw the screen during each pass through the loop
-    screen.fill(settings.bg_color)  # Better use method: screen.blit(background, obj_pos, obj_pos)
+    screen.blit(background, (0, 0))
     ship.blitme()  # Draw ship
     # Redraw all bullets behind ship and aliens.
     for bullet in bullets.sprites():
