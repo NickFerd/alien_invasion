@@ -1,4 +1,5 @@
 import sys
+import json
 import pygame
 from bullet import Bullet
 from alien import Alien
@@ -96,6 +97,11 @@ def check_high_score(stats, sb):
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         sb.prep_high_score()
+
+        # Saving highscore into highscore.json
+        with open("highscore.json", "w") as file:
+            json.dump(stats.high_score, file)
+
 
 # Bullets functions
 def update_bullets(settings, screen, stats, sb, ship, bullets, aliens):
