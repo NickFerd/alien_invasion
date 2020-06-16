@@ -98,10 +98,6 @@ def check_high_score(stats, sb):
         stats.high_score = stats.score
         sb.prep_high_score()
 
-        # Saving highscore into highscore.json
-        with open("highscore.json", "w") as file:
-            json.dump(stats.high_score, file)
-
 
 # Bullets functions
 def update_bullets(settings, screen, stats, sb, ship, bullets, aliens):
@@ -220,13 +216,17 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
         ship.center_ship()
 
         # Pause
-        sleep(0.3)
+        sleep(0.5)
 
     else:
         stats.ships_left = 0
         sb.prep_ships()
         stats.game_active = False
         pygame.mouse.set_visible(True)
+
+        # Save highscore to json file
+        with open("highscore.json", "w") as file:
+            json.dump(stats.high_score, file)
 
 
 def check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets):
