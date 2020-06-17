@@ -28,20 +28,21 @@ def run_game():
     # Create the fleet of aliens
     gf.create_fleet(ai_s, screen, ship, aliens)
 
-    # Make the PLAY button
+    # Make the PLAY button, Pause Button
     play_button = Button(ai_s, screen, 'PLAY')
+    pause_button = Button(ai_s, screen, "PAUSE")
 
     # Start the main loop for the game
     running = True
     while running:
         gf.check_events(ai_s, screen, stats, sb, play_button, ship, aliens, bullets)
 
-        if stats.game_active:
+        if stats.game_active and not stats.game_pause:
             ship.update()  # ship position update
             gf.update_bullets(ai_s, screen, stats, sb, ship, bullets, aliens)  # check alien-bullet collision
             gf.update_aliens(ai_s, stats, screen, sb, ship, aliens, bullets)
 
-        gf.update_screen(ai_s, screen, background, stats, sb, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_s, screen, background, stats, sb, ship, aliens, bullets, play_button, pause_button)
 
 
 run_game()

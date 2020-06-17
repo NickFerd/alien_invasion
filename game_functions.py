@@ -29,7 +29,7 @@ def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=No
     return image, image_rect
 
 
-def check_keydown_events(event, ai_s, screen, ship, bullets):
+def check_keydown_events(event, ai_s, stats, screen, ship, bullets):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -39,6 +39,11 @@ def check_keydown_events(event, ai_s, screen, ship, bullets):
         fire_bullet(ai_s, screen, ship, bullets)
     elif event.key == pygame.K_ESCAPE:
         sys.exit()
+    elif event.key == pygame.K_p:
+        if stats.game_pause:
+            stats.game_pause = False
+        else:
+            stats.game_pause = True
 
 
 def check_keyup_events(event, ship):
@@ -55,7 +60,7 @@ def check_events(ai_s, screen, stats, sb, play_button, ship, aliens, bullets):
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_s, screen, ship, bullets)
+            check_keydown_events(event, ai_s, stats, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -93,7 +98,7 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens,
         ship.center_ship()
 
 
-def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets, play_button):
+def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets, play_button, pause_button):
     """Update images on the screen and flip to the new screen"""
     # Redraw the screen during each pass through the loop
     screen.blit(background, (0, 0))
@@ -109,6 +114,11 @@ def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets
     # Draw PLAY button if the game is inactive
     if not stats.game_active:
         play_button.draw_button()
+
+    # Draw Pause button if game is paused
+    if stats.game_pause:
+        pause_button.draw_button()
+
 
     # Make the most recent drawn screen visible
     pygame.display.flip()

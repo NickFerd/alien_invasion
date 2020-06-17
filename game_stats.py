@@ -11,6 +11,9 @@ class GameStats:
         # Start Alien in an Active state
         self.game_active = False
 
+        # Track game pauses
+        self.game_pause = False
+
         # High score should never be reset
         self.high_score = self.get_highscore()
 
