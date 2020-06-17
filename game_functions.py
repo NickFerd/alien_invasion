@@ -11,7 +11,7 @@ from time import sleep
 def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=None):
     """Load image and return image Surface and image Rect objects.
         colorkey_RGB - color you want to be transparent
-        width_needed, height_needed - size of image needed"""
+        width_needed, height_needed - size of image to be scaled to"""
     fullname = os.path.join("images", name)
     try:
         image = pygame.image.load(fullname)
@@ -238,7 +238,7 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
         ship.center_ship()
 
         # Pause
-        sleep(0.5)
+        sleep(0.4)
 
     else:
         stats.ships_left = 0
@@ -273,5 +273,3 @@ def update_aliens(settings, stats, screen, sb, ship, aliens, bullets):
 
     # Look for aliens hitting the bottom of the screen
     check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets)
-
-
