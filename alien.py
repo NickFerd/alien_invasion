@@ -1,5 +1,7 @@
 import pygame
+import game_functions as gf
 from pygame.sprite import Sprite
+
 
 
 class Alien(Sprite):
@@ -12,10 +14,11 @@ class Alien(Sprite):
         self.ai_s = ai_s
 
         # Load the alien image and set its rect attribute
-        self.image = pygame.image.load("images/ufo.png")
-        self.image = pygame.transform.scale(self.image, (90, 50))
-        self.image = self.image.convert_alpha()  # used to png images with transparency
-        self.rect = self.image.get_rect()  # get Rect object
+        self.image, self.rect = gf.load_image("ufo.png", None, 90, 50)
+        #self.image = pygame.image.load("images/ufo.png")
+        #self.image = pygame.transform.scale(self.image, (90, 50))
+        #self.image = self.image.convert_alpha()  # used to png images with transparency
+        #self.rect = self.image.get_rect()  # get Rect object
 
         # Start each new alien near the top left of the screen
         self.rect.x = self.rect.width//3

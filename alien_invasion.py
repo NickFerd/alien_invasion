@@ -14,7 +14,7 @@ def run_game():
     ai_s = Settings()  # instance of class Settings, which store all settings parameters
     screen = pygame.display.set_mode((ai_s.screen_width, ai_s.screen_height))  # Get a Surface of screen
     pygame.display.set_caption('ALIEN INVASION')
-    background = pygame.image.load('images/bg1.jpg').convert()
+    background, background_rect = gf.load_image("bg1.jpg")
 
     # Create an instance to store game statistics and create a scoreboard
     stats = GameStats(ai_s)

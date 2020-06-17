@@ -1,12 +1,34 @@
 import sys
 import json
 import pygame
+import os
 from bullet import Bullet
 from alien import Alien
 from time import sleep
 
 
 # Core game functions
+def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=None):
+    """Load image and return image Surface and image Rect objects.
+        colorkey_RGB - color you want to be transparent
+        width_needed, height_needed - size of image needed"""
+    fullname = os.path.join("images", name)
+    try:
+        image = pygame.image.load(fullname)
+    except pygame.error as err:
+        print("Can not load image: ", name)
+        sys.exit(err)
+    if image.get_alpha():
+        image = image.convert_alpha()
+    else:
+        image = image.convert()
+    image.set_colorkey(colorkey_RGB)
+    if width_needed and height_needed:
+        image = pygame.transform.scale(image, (width_needed, height_needed))
+    image_rect = image.get_rect()
+    return image, image_rect
+
+
 def check_keydown_events(event, ai_s, screen, ship, bullets):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
