@@ -29,7 +29,7 @@ def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=No
     return image, image_rect
 
 
-def check_keydown_events(event, ai_s, stats, screen, ship, bullets):
+def check_keydown_events(event, ai_s, stats, sb, screen, ship, bullets, aliens):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -44,6 +44,8 @@ def check_keydown_events(event, ai_s, stats, screen, ship, bullets):
             stats.game_pause = False
         else:
             stats.game_pause = True
+    elif event.key == pygame.K_RETURN:
+        start_new_game(ai_s, screen, stats, sb, aliens, bullets, ship)
 
 
 def check_keyup_events(event, ship):
@@ -60,7 +62,7 @@ def check_events(ai_s, screen, stats, sb, play_button, ship, aliens, bullets):
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_s, stats, screen, ship, bullets)
+            check_keydown_events(event, ai_s, stats, sb, screen, ship, bullets, aliens)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -73,29 +75,30 @@ def check_play_button(settings, screen, stats, sb, play_button, ship, aliens,
     """Start a new game when the player clicks PLAY"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
-        # Reset the game settings
-        settings.initialize_dynamic_settings()
+        start_new_game(settings, screen, stats, sb, aliens, bullets, ship)
 
-        # Hide the mouse cursor
-        pygame.mouse.set_visible(False)
 
-        # Reset the game statistics
-        stats.reset_stats()
-        stats.game_active = True
+def start_new_game(settings, screen, stats, sb, aliens, bullets, ship):
+    # Reset the game settings
+    settings.initialize_dynamic_settings()
 
-        # Reset the scoreboard images
-        sb.prep_score()
-        sb.prep_high_score()
-        sb.prep_level()
-        sb.prep_ships()
+    # Hide the mouse cursor
+    pygame.mouse.set_visible(False)
 
-        # Empty the list of aliens and bullets
-        aliens.empty()
-        bullets.empty()
+    # Reset the game statistics
+    stats.reset_stats()
+    stats.game_active = True
 
-        # Create new fleet and center the ship
-        create_fleet(settings, screen, ship, aliens)
-        ship.center_ship()
+    # Reset the scoreboard images
+    sb.prep_images()
+
+    # Empty the list of aliens and bullets
+    aliens.empty()
+    bullets.empty()
+
+    # Create new fleet and center the ship
+    create_fleet(settings, screen, ship, aliens)
+    ship.center_ship()
 
 
 def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets, play_button, pause_button):
@@ -118,7 +121,6 @@ def update_screen(settings, screen, background, stats, sb, ship, aliens, bullets
     # Draw Pause button if game is paused
     if stats.game_pause:
         pause_button.draw_button()
-
 
     # Make the most recent drawn screen visible
     pygame.display.flip()
