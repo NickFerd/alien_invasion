@@ -1,4 +1,6 @@
 import json
+import os
+
 
 class GameStats:
     """Track statistics for Alien Invasion"""
@@ -33,4 +35,3 @@ class GameStats:
             return 0
         else:
             return highscore
-

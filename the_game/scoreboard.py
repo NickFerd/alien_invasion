@@ -68,7 +68,6 @@ class Scoreboard:
         self.prep_level()
         self.prep_ships()
 
-
     def show_scores(self):
         """Draw score to the screen"""
         self.screen.blit(self.score_image, self.score_rect)

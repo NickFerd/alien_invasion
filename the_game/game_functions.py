@@ -12,7 +12,8 @@ def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=No
     """Load image and return image Surface and image Rect objects.
         colorkey_RGB - color you want to be transparent
         width_needed, height_needed - size of image to be scaled to"""
-    fullname = os.path.join("images", name)
+    parent_dir = os.path.dirname(os.path.dirname(__file__))
+    fullname = os.path.join(parent_dir, "images", name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error as err:
@@ -259,7 +260,8 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
         pygame.mouse.set_visible(True)
 
         # Save highscore to json file
-        with open("highscore.json", "w") as file:
+        filename = "highscore.json"
+        with open(filename, "w") as file:
             json.dump(stats.high_score, file)
 
 

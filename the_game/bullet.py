@@ -1,4 +1,5 @@
 import pygame
+import os
 from pygame.sprite import Sprite
 
 
@@ -30,3 +31,7 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """Draw the bullet to the screen"""
         pygame.draw.rect(self.screen, self.color, self.rect)
+
+
+
+print(os.path.dirname(os.path.dirname(__file__)))

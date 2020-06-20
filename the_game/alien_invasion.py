@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import pygame
 import game_functions as gf
 from pygame.sprite import Group
