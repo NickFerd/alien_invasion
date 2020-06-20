@@ -1,0 +1,9 @@
+# ignore folder
+__pycache__
+.idea
+
+# ignore files
+highscore.json
+
+
+
