@@ -56,7 +56,7 @@ def check_keydown_events(event, ai_s, stats, sb, screen, ship, bullets, aliens):
             stats.game_pause = False
         else:
             stats.game_pause = True
-    elif event.key == pygame.K_RETURN:
+    elif event.key == pygame.K_RETURN and not stats.game_active:
         start_new_game(ai_s, screen, stats, sb, aliens, bullets, ship)
 
 

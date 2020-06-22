@@ -13,13 +13,13 @@ in a separate json file so that if doesn't reset every time you start a new game
 
 ![alt text](screenshots/screenshot1.png "StartMenu")
 
-There is also sound effects when the player levels up and when loses a ship.
-Besides, nice music plays in the background that adds to the atmosphere of the game.
+There are also sound effects when the player levels up and when loses a ship.
+Besides, nice music plays in the background which adds to the atmosphere of the game.
 
 Controls:
--move your ship with left and right key arrows 
--shoot bullets with spacebar 
--start the game with either clicking on PLAY button or pressing Enter 
--pressing P button pauses the game 
--Esc button exits the game.
+-1) move your ship with left and right key arrows
+-2) shoot bullets with spacebar
+-3) start the game with either clicking on PLAY button or pressing Enter
+-4) pressing P button pauses the game
+-5) Esc button exits the game
 
