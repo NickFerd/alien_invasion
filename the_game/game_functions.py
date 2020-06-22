@@ -30,6 +30,17 @@ def load_image(name: str, colorkey_RGB=None, width_needed=None, height_needed=No
     return image, image_rect
 
 
+def load_music(name):
+    """Function to load a sound file"""
+    parent_dir = os.path.dirname(os.path.dirname(__file__))
+    fullname = os.path.join(parent_dir, "music", name)
+    try:
+        sound = pygame.mixer.Sound(fullname)
+    except pygame.error as err:
+        sys.exit(err)
+    return sound
+
+
 def check_keydown_events(event, ai_s, stats, sb, screen, ship, bullets, aliens):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
@@ -135,7 +146,7 @@ def check_high_score(stats, sb):
 
 
 # Bullets functions
-def update_bullets(settings, screen, stats, sb, ship, bullets, aliens):
+def update_bullets(settings, screen, stats, sb, ship, bullets, aliens, level_up):
     """Update bullets position and get rid of old bullets"""
     # Update bullet positions
     bullets.update()
@@ -146,7 +157,7 @@ def update_bullets(settings, screen, stats, sb, ship, bullets, aliens):
             bullets.remove(bullet)
 
     # Manage collisions and recreating a fleet if it is shot down
-    check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bullets)
+    check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bullets, level_up)
 
 
 def fire_bullet(ai_s, screen, ship, bullets):
@@ -157,7 +168,7 @@ def fire_bullet(ai_s, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bullets):
+def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bullets, level_up):
     """Respond to bullet-alien collisions"""
     # Remove any bullets and aliens that have collided
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)  # this func returns a dict
@@ -169,6 +180,9 @@ def check_bullet_alien_collisions(settings, screen, stats, sb, ship, aliens, bul
         check_high_score(stats, sb)
 
     if len(aliens) == 0:
+        # play sound
+        level_up.play()
+
         # Destroy existing bullets, speed up the game and create new fleet
         bullets.empty()
         settings.increase_speed()
@@ -233,9 +247,12 @@ def change_fleet_direction(settings, aliens):
     settings.fleet_direction *= -1
 
 
-def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
+def ship_hit(settings, stats, screen, sb, ship, aliens, bullets, lose_sound):
     """Respond to ship being hit by alien"""
     if stats.ships_left > 1:
+        # play sound
+        lose_sound.play()
+
         # Decrement ships left
         stats.ships_left -= 1
 
@@ -254,6 +271,7 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
         sleep(0.4)
 
     else:
+        lose_sound.play()
         stats.ships_left = 0
         sb.prep_ships()
         stats.game_active = False
@@ -265,17 +283,17 @@ def ship_hit(settings, stats, screen, sb, ship, aliens, bullets):
             json.dump(stats.high_score, file)
 
 
-def check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets):
+def check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets, lose_sound):
     """"Check if any aliens have reached the bottom of the screen"""
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             # Treat this the same as if the ship got hit
-            ship_hit(settings, stats, screen, sb, ship, aliens, bullets)
+            ship_hit(settings, stats, screen, sb, ship, aliens, bullets, lose_sound)
             return
 
 
-def update_aliens(settings, stats, screen, sb, ship, aliens, bullets):
+def update_aliens(settings, stats, screen, sb, ship, aliens, bullets, lose_sound):
     """Check if the fleet is at an edge,
         and then update the positions of all aliens in the fleet"""
     check_fleet_edges(settings, aliens)
@@ -283,7 +301,7 @@ def update_aliens(settings, stats, screen, sb, ship, aliens, bullets):
 
     # Look for alien-ship collisions
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(settings, stats, screen, sb, ship, aliens, bullets)
+        ship_hit(settings, stats, screen, sb, ship, aliens, bullets, lose_sound)
 
     # Look for aliens hitting the bottom of the screen
-    check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets)
+    check_aliens_bottom(settings, stats, screen, sb, ship, aliens, bullets, lose_sound)

@@ -33,6 +33,15 @@ def run_game():
     play_button = Button(ai_s, screen, 'PLAY')
     pause_button = Button(ai_s, screen, "PAUSE")
 
+    # Load Sound
+    losing_sound = gf.load_music("boom1.wav")
+    level_up_sound = gf.load_music('level_up1.wav')
+    bg_music = gf.load_music("bg_music.wav")
+
+    # start background music
+    bg_music.set_volume(0.09)
+    bg_music.play(-1)
+
     # Start the main loop for the game
     running = True
     while running:
@@ -40,8 +49,8 @@ def run_game():
 
         if stats.game_active and not stats.game_pause:
             ship.update()  # ship position update
-            gf.update_bullets(ai_s, screen, stats, sb, ship, bullets, aliens)  # check alien-bullet collision
-            gf.update_aliens(ai_s, stats, screen, sb, ship, aliens, bullets)
+            gf.update_bullets(ai_s, screen, stats, sb, ship, bullets, aliens, level_up_sound)
+            gf.update_aliens(ai_s, stats, screen, sb, ship, aliens, bullets, losing_sound)
 
         gf.update_screen(ai_s, screen, background, stats, sb, ship, aliens, bullets, play_button, pause_button)
 
